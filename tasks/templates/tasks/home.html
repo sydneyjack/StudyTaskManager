@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #263238;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        header, .summary, .task-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .task-card {
+            border-left: 5px solid #4568dc;
+        }
+
+        .completed {
+            border-left-color: #2e9d69;
+            opacity: 0.8;
+        }
+
+        .button {
+            display: inline-block;
+            background: #4568dc;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .status {
+            font-size: 14px;
+            color: #52606d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Study Task Manager</h1>
+        <p>Keep track of your schoolwork and study goals.</p>
+        <a class="button" href="/tasks/add/">Add a Task</a>
+    </header>
+
+    <section class="summary">
+        <div>
+            <h2>{{ total_tasks }}</h2>
+            <p>Total Tasks</p>
+        </div>
+        <div>
+            <h2>{{ pending_tasks }}</h2>
+            <p>Pending</p>
+        </div>
+        <div>
+            <h2>{{ completed_tasks }}</h2>
+            <p>Completed</p>
+        </div>
+    </section>
+
+    <h2>Your Study Tasks</h2>
+
+    {% for task in tasks %}
+        <article class="task-card {% if task.completed %}completed{% endif %}">
+            <h3>
+    <a href="{% url 'task_detail' task.id %}">{{ task.title }}</a>
+</h3>
+            <p>{{ task.description|default:"No description provided." }}</p>
+
+            {% if task.due_date %}
+                <p>Due date: {{ task.due_date|date:"M d, Y" }}</p>
+            {% endif %}
+
+            <p class="status">
+                Status: {% if task.completed %}Completed{% else %}Pending{% endif %}
+            </p>
+        </article>
+    {% empty %}
+        <p>No study tasks yet. Add your first task to get started!</p>
+    {% endfor %}
+</body>
+</html>

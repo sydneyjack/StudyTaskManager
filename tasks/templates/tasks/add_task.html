@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Task | Study Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #263238;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        main {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccd2dc;
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        button, .back-link {
+            display: inline-block;
+            margin-top: 22px;
+            padding: 11px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #4568dc;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .error {
+            color: #b42318;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Add a Study Task</h1>
+        <p>Enter the details of the assignment you want to track.</p>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="title">Task Title</label>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                maxlength="200"
+                required
+            >
+
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+            ></textarea>
+
+            <label for="due_date">Due Date</label>
+            <input
+                type="date"
+                id="due_date"
+                name="due_date"
+            >
+
+            <button type="submit">Save Task</button>
+        </form>
+
+        <a class="back-link" href="/">Back to Home</a>
+    </main>
+</body>
+</html>
